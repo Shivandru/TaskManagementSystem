@@ -12,10 +12,11 @@ export default function Tasks() {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = taskData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = taskData?.slice(indexOfFirstItem, indexOfLastItem);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   if (!isLoggedIn) {
     alert("Please login to access the data");
+    navigate("/login");
   }
   async function handleSubmit(event) {
     event.preventDefault();
