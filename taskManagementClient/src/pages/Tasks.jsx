@@ -15,7 +15,7 @@ export default function Tasks() {
   const currentItems = taskData.slice(indexOfFirstItem, indexOfLastItem);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   if (!isLoggedIn) {
-    navigate("/login");
+    alert("Please login to access the data");
   }
   async function handleSubmit(event) {
     event.preventDefault();
