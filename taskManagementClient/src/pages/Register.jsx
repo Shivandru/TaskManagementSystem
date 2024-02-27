@@ -15,13 +15,16 @@ export default function Register() {
   }
   async function handleSubmit(event) {
     event.preventDefault();
-    let response = await fetch(`http://localhost:3000/user/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      mode: "cors",
-      credentials: "include",
-      body: JSON.stringify(formState),
-    });
+    let response = await fetch(
+      `https://taskmanagementsystem-production.up.railway.app/user/register`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+        credentials: "include",
+        body: JSON.stringify(formState),
+      }
+    );
     const data = await response.json();
     alert(data.msg);
     setFormState({

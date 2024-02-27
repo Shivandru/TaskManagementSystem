@@ -8,7 +8,7 @@ import { AuthContext } from "./AuthComponent/AuthContextProvider";
 function App() {
   const { taskData, settaskData } = useContext(AuthContext);
   const socket = useMemo(() => {
-    return io("http://localhost:3000");
+    return io("https://taskmanagementsystem-production.up.railway.app");
   }, []);
   useEffect(() => {
     if (!socket) return;

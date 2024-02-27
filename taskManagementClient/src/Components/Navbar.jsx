@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import AllRoutes from "../AllRoutesFolder/AllRoutes";
+import { AuthContext } from "../AuthComponent/AuthContextProvider";
 export default function Navbar() {
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   async function handleLogout() {
-    let res = await fetch(`http://localhost:3000/user/logout`, {
-      method: "GET",
-      mode: "cors",
-      credentials: "include",
-    });
+    let res = await fetch(
+      `https://taskmanagementsystem-production.up.railway.app/user/logout`,
+      {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+      }
+    );
     let data = await res.json();
     alert(data.msg);
+    if (data.msg == "Logged out successfully") {
+      setIsLoggedIn(false);
+    }
   }
   return (
     <>

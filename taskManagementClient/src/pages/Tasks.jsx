@@ -14,19 +14,22 @@ export default function Tasks() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = taskData.slice(indexOfFirstItem, indexOfLastItem);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  if (isLoggedIn == false) {
+  if (!isLoggedIn) {
     navigate("/login");
   }
   async function handleSubmit(event) {
     event.preventDefault();
     console.log(task);
-    let res = await fetch(`http://localhost:3000/task/add`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      mode: "cors",
-      credentials: "include",
-      body: JSON.stringify(task),
-    });
+    let res = await fetch(
+      `https://taskmanagementsystem-production.up.railway.app/task/add`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+        credentials: "include",
+        body: JSON.stringify(task),
+      }
+    );
     let data = await res.json();
     alert(data.msg);
     console.log(data.msg);
@@ -40,11 +43,14 @@ export default function Tasks() {
     });
   }
   async function getTasks() {
-    let res = await fetch(`http://localhost:3000/task`, {
-      method: "GET",
-      mode: "cors",
-      credentials: "include",
-    });
+    let res = await fetch(
+      `https://taskmanagementsystem-production.up.railway.app/task`,
+      {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+      }
+    );
     let data = await res.json();
     settaskData(data.data);
   }
@@ -55,11 +61,14 @@ export default function Tasks() {
 
   async function handleDelete(id) {
     try {
-      let res = await fetch(`http://localhost:3000/task/delete/${id}`, {
-        method: "DELETE",
-        mode: "cors",
-        credentials: "include",
-      });
+      let res = await fetch(
+        `https://taskmanagementsystem-production.up.railway.app/task/delete/${id}`,
+        {
+          method: "DELETE",
+          mode: "cors",
+          credentials: "include",
+        }
+      );
       let data = await res.json();
       alert(data.msg);
     } catch (error) {
@@ -89,13 +98,16 @@ export default function Tasks() {
   async function handleUpdate(id) {
     try {
       console.log(update);
-      let res = await fetch(`http://localhost:3000/task/update/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        mode: "cors",
-        credentials: "include",
-        body: JSON.stringify(update),
-      });
+      let res = await fetch(
+        `https://taskmanagementsystem-production.up.railway.app/task/update/${id}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          mode: "cors",
+          credentials: "include",
+          body: JSON.stringify(update),
+        }
+      );
       let data = await res.json();
       alert(data.msg);
       setEdit(!edit);

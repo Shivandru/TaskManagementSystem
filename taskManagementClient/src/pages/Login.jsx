@@ -15,7 +15,7 @@ export default function Login() {
   async function handleSubmit(event) {
     try {
       event.preventDefault();
-      let res = await fetch(`http://localhost:3000/user/login`, {
+      let res = await fetch(`https://taskmanagementsystem-production.up.railway.app/user/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         mode: "cors",
