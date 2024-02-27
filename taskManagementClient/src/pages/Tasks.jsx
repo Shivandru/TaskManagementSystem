@@ -3,12 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthComponent/AuthContextProvider";
 export default function Tasks() {
   let [task, settask] = useState({ title: "", body: "", date: "", status: "" });
-  let [taskData, settaskData] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [edit, setEdit] = useState(false);
   const [update, setUpdate] = useState({});
   const navigate = useNavigate();
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, taskData, settaskData } = useContext(AuthContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const indexOfLastItem = currentPage * itemsPerPage;

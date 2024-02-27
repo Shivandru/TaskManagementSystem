@@ -56,6 +56,10 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log("New User connected with socket id: " + socket.id);
 
+  socket.on("newTask", (newTask) => {
+    console.log("Received new task:", newTask);
+    io.emit("newTask", newTask);
+  });
   socket.on("disconnect", () => {
     console.log(`user disconnected ${socket.id}`);
   });
