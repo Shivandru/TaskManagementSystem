@@ -54,8 +54,6 @@ taskRouter.use(auth);
 taskRouter.get("/", async (req, res) => {
   try {
     const tasks = await TaskModel.find();
-    let userId = req.userId;
-    let username = req.username;
     res.status(200).send({ msg: "All tasks", data: tasks });
   } catch (error) {
     res.status(404).send({ msg: error.message });

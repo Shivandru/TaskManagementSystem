@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../AuthComponent/AuthContextProvider";
 export default function Login() {
   const [formState, setFormState] = useState({
     email: "",
     pass: "",
   });
-
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   function handleChange(event) {
     setFormState({
       ...formState,
@@ -12,20 +13,30 @@ export default function Login() {
     });
   }
   async function handleSubmit(event) {
-    event.preventDefault();
-    let res = await fetch(`http://localhost:3000/user/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      mode: "cors",
-      credentials: "include",
-      body: JSON.stringify(formState),
-    });
-    let data = await res.json();
-    alert(data.msg);
-    setFormState({
-      email: "",
-      pass: "",
-    });
+    try {
+      event.preventDefault();
+      let res = await fetch(`http://localhost:3000/user/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+        credentials: "include",
+        body: JSON.stringify(formState),
+      });
+      let data = await res.json();
+      alert(data.msg);
+      if (data.msg == "Login Successful") {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+      setFormState({
+        email: "",
+        pass: "",
+      });
+    } catch (error) {
+      console.log(error);
+      setIsLoggedIn(false);
+    }
   }
   return (
     <div>

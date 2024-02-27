@@ -1,10 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../AuthComponent/AuthContextProvider";
 export default function Tasks() {
   let [task, settask] = useState({ title: "", body: "", date: "", status: "" });
   let [taskData, settaskData] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [edit, setEdit] = useState(false);
   const [update, setUpdate] = useState({});
+  const navigate = useNavigate();
+  const { isLoggedIn } = useContext(AuthContext);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = taskData.slice(indexOfFirstItem, indexOfLastItem);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  if (isLoggedIn == false) {
+    navigate("/login");
+  }
   async function handleSubmit(event) {
     event.preventDefault();
     console.log(task);
@@ -106,10 +119,10 @@ export default function Tasks() {
       <div style={{ display: "flex", justifyContent: "space-around" }}>
         <div
           style={{
-            width: "20%",
+            width: "25%",
             height: "auto",
             // border: "2px solid black",
-            padding: "1rem",
+            padding: "2rem",
             borderRadius: "1rem",
             display: "flex",
             flexDirection: "column",
@@ -195,7 +208,7 @@ export default function Tasks() {
             padding: "10px",
           }}
         >
-          {taskData?.map((item) => (
+          {currentItems?.map((item) => (
             <div
               style={{
                 marginTop: "10px",
@@ -350,6 +363,46 @@ export default function Tasks() {
             </div>
           ))}
         </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "1rem",
+          // border: "1px solid black",
+          gap: "1rem",
+        }}
+      >
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+          style={{
+            cursor: "pointer",
+            padding: "0.5rem",
+            borderRadius: "0.3rem",
+            border: "none",
+            backgroundColor: "#63B3ED",
+            color: "#FFFFFF",
+            width: "4rem",
+          }}
+        >
+          Prev
+        </button>
+        <p>Page {currentPage}</p>
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          style={{
+            cursor: "pointer",
+            padding: "0.5rem",
+            borderRadius: "0.3rem",
+            border: "none",
+            backgroundColor: "#63B3ED",
+            color: "#FFFFFF",
+            width: "4rem",
+          }}
+        >
+          Next
+        </button>
       </div>
     </>
   );
