@@ -13,28 +13,28 @@ const Port = process.env.PORT;
 const app = express();
 const server = createServer(app);
 app.use(express.json());
-// const options = {
-//   definition: {
-//     openapi: "3.0.0",
-//     info: {
-//       title: "Task Management System",
-//       version: "1.0.0",
-//     },
-//     servers: [
-//       {
-//         url: "http://localhost:3000",
-//       },
-//     ],
-//   },
-//   apis: ["./Controllers/*.js"],
-// };
-// const swaggerSpec = swaggerJSdoc(options);
-// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Task Management System",
+      version: "1.0.0",
+    },
+    servers: [
+      {
+        url: "http://localhost:3000",
+      },
+    ],
+  },
+  apis: ["./Controllers/*.js"],
+};
+const swaggerSpec = swaggerJSdoc(options);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://127.0.0.1:5173",
+    origin: "https://taskmanagement-sandy.vercel.app",
     credentials: true,
     httpOnly: true,
   })
@@ -47,7 +47,7 @@ app.get("/", (req, res) => {
 
 const io = new Server(server, {
   cors: {
-    origin: "http://127.0.0.1:5173",
+    origin: "https://taskmanagement-sandy.vercel.app",
     credentials: true,
     httpOnly: true,
   },
